@@ -53,11 +53,14 @@ docker-compose up --build
 ```
 .
 ├── app/
-│   ├── main.py               # Точки входа и роуты FastAPI
-│   ├── models.py             # SQLAlchemy модели
-│   ├── schemas.py            # Pydantic схемы
-│   ├── database.py           # Подключение к БД и сессии
-│   └── crud.py               # Бизнес-логика CRUD
+│   ├── main.py               # Точка входа FastAPI; подключение роутеров
+│   ├── api/
+│   │   ├── tasks.py          # Роутер CRUD для задач 
+│   │   └── crud.py           # CRUD-логика 
+│   ├── core/
+│   │   ├── database.py       # Подключение к БД и сессии 
+│   │   ├── models.py         # SQLAlchemy модели
+│   │   └── schemas.py        # Pydantic-схемы
 ├── tests/                    # Тесты
 ├── Dockerfile                # Контейнеризация
 ├── docker-compose.yml        # Локальный запуск
