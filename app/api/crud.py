@@ -1,7 +1,7 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from app.models import Task
-from app.schemas import TaskCreate, TaskUpdate
+from app.core.models import Task
+from app.core.schemas import TaskCreate, TaskUpdate
 
 
 def create_task(db: Session, task: TaskCreate) -> Task:

@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, Any
 from pydantic import BaseModel, Field, field_serializer
-from app.models import TaskStatus
+from app.core.models import TaskStatus
 
 
 class TaskBase(BaseModel):
