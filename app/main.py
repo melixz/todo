@@ -1,9 +1,9 @@
 from typing import List
-from uuid import UUID
 from fastapi import FastAPI, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.database import get_db, engine
+from app.models import Base
 from app.crud import create_task, get_task, get_tasks, update_task, delete_task
 from app.schemas import TaskCreate, TaskUpdate, TaskResponse
 
@@ -12,6 +12,12 @@ app = FastAPI(
     description="CRUD API для управления задачами с поддержкой статусов: создано, в работе, завершено",
     version="0.1.0",
 )
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Создание таблиц при запуске приложения."""
+    Base.metadata.create_all(bind=engine)
 
 
 @app.get("/", tags=["Root"])
@@ -40,7 +46,7 @@ async def read_tasks(skip: int = 0, limit: int = 100, db: Session = Depends(get_
 
 
 @app.get("/tasks/{task_id}", response_model=TaskResponse, tags=["Tasks"])
-async def read_task(task_id: UUID, db: Session = Depends(get_db)):
+async def read_task(task_id: str, db: Session = Depends(get_db)):
     task = get_task(db=db, task_id=task_id)
     if not task:
         raise HTTPException(
@@ -51,7 +57,7 @@ async def read_task(task_id: UUID, db: Session = Depends(get_db)):
 
 @app.put("/tasks/{task_id}", response_model=TaskResponse, tags=["Tasks"])
 async def update_existing_task(
-    task_id: UUID, task_update: TaskUpdate, db: Session = Depends(get_db)
+    task_id: str, task_update: TaskUpdate, db: Session = Depends(get_db)
 ):
     task = update_task(db=db, task_id=task_id, task_update=task_update)
     if not task:
@@ -62,7 +68,7 @@ async def update_existing_task(
 
 
 @app.delete("/tasks/{task_id}", status_code=status.HTTP_204_NO_CONTENT, tags=["Tasks"])
-async def delete_existing_task(task_id: UUID, db: Session = Depends(get_db)):
+async def delete_existing_task(task_id: str, db: Session = Depends(get_db)):
     if not delete_task(db=db, task_id=task_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Задача не найдена"

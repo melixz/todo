@@ -1,0 +1,11 @@
+<testsuites>
+	<testsuite id="1" tests="4" failures="0" package="/home/vlad/PycharmProjects/todo/specs/task_management.spec" time="0.158" timestamp="2025-08-20T00:25:48" name="Управление задачами" errors="0" hostname="vlad">
+		<properties></properties>
+		<testcase classname="Управление задачами" name="Создание задачи" time="0.043"></testcase>
+		<testcase classname="Управление задачами" name="Получение списка задач" time="0.051"></testcase>
+		<testcase classname="Управление задачами" name="Обновление статуса задачи" time="0.038"></testcase>
+		<testcase classname="Управление задачами" name="Удаление задачи" time="0.026"></testcase>
+		<system-out></system-out>
+		<system-err></system-err>
+	</testsuite>
+</testsuites>

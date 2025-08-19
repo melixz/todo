@@ -1,7 +1,6 @@
 from datetime import datetime
-from typing import Optional
-from uuid import UUID
-from pydantic import BaseModel, Field
+from typing import Optional, Any
+from pydantic import BaseModel, Field, field_serializer
 from app.models import TaskStatus
 
 
@@ -22,9 +21,13 @@ class TaskUpdate(BaseModel):
 
 
 class TaskResponse(TaskBase):
-    id: UUID
+    id: str
     created_at: datetime
     updated_at: datetime
+
+    @field_serializer("id")
+    def serialize_id(self, value: Any) -> str:
+        return str(value)
 
     class Config:
         from_attributes = True
